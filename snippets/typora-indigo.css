@@ -1,0 +1,252 @@
+/* typora-indigo — Obsidian CSS Snippet
+ * 迁移自 VS Code「Markdown Preview Enhanced」预览主题 typora-indigo.css
+ * 仅作用于阅读视图；亮色忠实还原原主题，暗色为同色系推导
+ * 亮暗由 Obsidian 基础主题（theme-light / theme-dark）决定，与外观主题无关
+ */
+
+/* ========== 调色板 ========== */
+.markdown-preview-view {
+  /* 亮色（忠实还原 typora-indigo） */
+  --ti-bg: #fff;
+  --ti-grid: rgba(60, 10, 30, 0.05);
+  --ti-text: #595959;
+  --ti-heading: #2d3748;
+  --ti-accent: #5a67d8;
+  --ti-accent-soft: #667eea;
+  --ti-accent-hover: #4c51bf;
+  --ti-soft-bg: #ebf4ff;
+  --ti-border-strong: #7f9cf5;
+  --ti-th-border: #c3dafe;
+  --ti-border: #e2e8f0;
+  --ti-heading-border: #eaecef;
+  --ti-zebra: #f7fafc;
+  --ti-img-shadow: 2px 4px 7px #999;
+  /* 代码块亮暗一致（原主题 Monokai 底） */
+  --ti-code-bg: #272822;
+  --ti-code-fg: #f8f8f2;
+}
+
+.theme-dark .markdown-preview-view {
+  /* 暗色（同色系推导，非原主题） */
+  --ti-bg: #1b1e2e;
+  --ti-grid: rgba(127, 156, 245, 0.06);
+  --ti-text: #c9cede;
+  --ti-heading: #e3e6f2;
+  --ti-accent: #8fa4f8;
+  --ti-accent-soft: #a3bffa;
+  --ti-accent-hover: #b3c2fa;
+  --ti-soft-bg: rgba(95, 113, 235, 0.16);
+  --ti-border-strong: rgba(127, 156, 245, 0.6);
+  --ti-th-border: rgba(127, 156, 245, 0.35);
+  --ti-border: #383f5c;
+  --ti-heading-border: #323850;
+  --ti-zebra: rgba(255, 255, 255, 0.03);
+  --ti-img-shadow: 2px 4px 10px rgba(0, 0, 0, 0.45);
+}
+
+/* ========== 行宽（覆盖"可读行宽"限宽，还原 MPE 满宽预览） ========== */
+/* 编辑（实时预览）与阅读视图都拉满；配色/背景仍仅阅读视图生效 */
+.markdown-source-view,
+.markdown-reading-view {
+  --file-line-width: 100%;
+}
+
+.markdown-source-view.is-readable-line-width .cm-sizer,
+.markdown-reading-view.is-readable-line-width .markdown-preview-sizer {
+  max-width: 100%;
+  width: 100%;
+}
+
+/* ========== 正文（仅阅读视图根容器，不影响编辑/实时预览/嵌入块） ========== */
+.markdown-reading-view .markdown-preview-view {
+  color: var(--ti-text);
+  background-color: var(--ti-bg);
+  background-image: linear-gradient(90deg, var(--ti-grid) 3%, transparent 0),
+    linear-gradient(1turn, var(--ti-grid) 3%, transparent 0);
+  background-size: 20px 20px;
+  background-position: 50%;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  line-height: 1.8;
+}
+
+/* ========== 加粗（原主题特征：自动包「」） ========== */
+.markdown-preview-view strong {
+  color: var(--ti-accent);
+}
+
+.markdown-preview-view strong::before {
+  content: "「";
+}
+
+.markdown-preview-view strong::after {
+  content: "」";
+}
+
+/* ========== 行内代码与链接 ========== */
+.markdown-preview-view :not(pre) > code {
+  color: var(--ti-accent);
+  background-color: var(--ti-soft-bg);
+  border-radius: 3px;
+  padding: 0.15em 0.3em;
+  font-size: 0.9em;
+}
+
+.markdown-preview-view a {
+  color: var(--ti-accent);
+  text-decoration: none;
+  border-bottom: 1px solid var(--ti-accent-soft);
+}
+
+.markdown-preview-view a:hover {
+  color: var(--ti-accent-hover);
+  border-bottom-color: var(--ti-accent-hover);
+}
+
+/* 去掉外链图标，保持原主题的纯净链接样式 */
+.markdown-preview-view a.external-link {
+  background-image: none;
+  padding-right: 0;
+}
+
+/* ========== 标题（左竖线 + 底边框） ========== */
+.markdown-preview-view h1,
+.markdown-preview-view h2,
+.markdown-preview-view h3,
+.markdown-preview-view h4,
+.markdown-preview-view h5,
+.markdown-preview-view h6 {
+  color: var(--ti-heading);
+  font-weight: 500;
+  line-height: 1.25;
+  margin-bottom: 16px;
+}
+
+.markdown-preview-view h1,
+.markdown-preview-view h2 {
+  border-left: 6px solid var(--ti-accent);
+  border-bottom: 1px solid var(--ti-heading-border);
+  padding: 0.25rem 0 0.25rem 0.75rem;
+}
+
+.markdown-preview-view h3 {
+  font-size: 1.25em;
+}
+
+.markdown-preview-view h4 {
+  font-size: 1.1em;
+}
+
+/* ========== 引用块 ========== */
+.markdown-preview-view blockquote {
+  margin-inline: 0;
+  background-color: var(--ti-soft-bg);
+  border-left: 0.25em solid var(--ti-border-strong);
+  color: var(--ti-accent-soft);
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+}
+
+/* ========== 代码块（macOS 红绿灯 + Monokai 底） ========== */
+.markdown-preview-view pre {
+  position: relative;
+  padding: 12px;
+  padding-top: 6px;
+  margin: 0.5em 0 1rem;
+  border-radius: 6px;
+  background-color: var(--ti-code-bg);
+  border: none;
+}
+
+.markdown-preview-view pre::before {
+  content: "";
+  display: block;
+  height: 30px;
+  width: 100%;
+  margin-bottom: -7px;
+  background-size: 40px;
+  background-repeat: no-repeat;
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1NCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDU0IDE0Ij4KICA8ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEgMSkiPgogICAgPGNpcmNsZSBjeD0iNiIgY3k9IjYiIHI9IjYiIGZpbGw9IiNGRjVGNTYiIHN0cm9rZT0iI0UwNDQzRSIgc3Ryb2tlLXdpZHRoPSIuNSIvPgogICAgPGNpcmNsZSBjeD0iMjYiIGN5PSI2IiByPSI2IiBmaWxsPSIjRkZCRDJFIiBzdHJva2U9IiNERUExMjMiIHN0cm9rZS13aWR0aD0iLjUiLz4KICAgIDxjaXJjbGUgY3g9IjQ2IiBjeT0iNiIgcj0iNiIgZmlsbD0iIzI3QzkzRiIgc3Ryb2tlPSIjMUFBQjI5IiBzdHJva2Utd2lkdGg9Ii41Ii8+CiAgPC9nPgo8L3N2Zz4K");
+}
+
+.markdown-preview-view pre code {
+  color: var(--ti-code-fg);
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  font-size: inherit;
+  line-height: 1.6;
+}
+
+.markdown-preview-view .copy-code-button {
+  color: #a6a6a6;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.markdown-preview-view .copy-code-button:hover {
+  color: #f8f8f2;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ========== 表格（表头淡蓝 + 斑马纹） ========== */
+.markdown-preview-view table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.markdown-preview-view th {
+  background-color: var(--ti-soft-bg);
+  color: var(--ti-accent);
+  font-weight: 600;
+  border: 1px solid var(--ti-th-border);
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.markdown-preview-view td {
+  border: 1px solid var(--ti-border);
+  padding: 8px 12px;
+}
+
+.markdown-preview-view tbody tr:nth-child(even) {
+  background-color: var(--ti-zebra);
+}
+
+/* ========== 图片 ========== */
+.markdown-preview-view img:not(.emoji) {
+  max-width: 100%;
+  display: block;
+  margin: 10px auto;
+  object-fit: contain;
+  border-radius: 6px;
+  box-shadow: var(--ti-img-shadow);
+}
+
+/* ========== 分隔线 / 键盘键 / 任务列表 / 脚注 ========== */
+.markdown-preview-view hr {
+  height: 2px;
+  margin: 32px 0;
+  background-color: var(--ti-border);
+  border: 0 none;
+}
+
+.markdown-preview-view kbd {
+  color: var(--ti-accent);
+  border: 1px solid var(--ti-th-border);
+  border-bottom: 2px solid var(--ti-border-strong);
+  padding: 2px 6px;
+  background-color: var(--ti-soft-bg);
+  border-radius: 3px;
+  font-size: 0.85em;
+}
+
+.markdown-preview-view .task-list-item-checkbox {
+  accent-color: var(--ti-accent);
+}
+
+.markdown-preview-view .footnotes {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
